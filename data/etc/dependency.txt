@@ -1,0 +1,7 @@
+* curl
+
+* ruby 1.9 or higher
+	yum install -y ruby ruby-devel rubygems
+
+* ruby - json
+	gem install json
