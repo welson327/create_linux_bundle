@@ -1,0 +1,2 @@
+module Esbi::InvestorHelper
+end

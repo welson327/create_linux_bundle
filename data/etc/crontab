@@ -18,7 +18,3 @@ HOME=/
 0 3 * * * root /yiabiRoot/cronjob/clean_temp.sh
 ##tasks_per_5_min
 */5 * * * * root /yiabiRoot/cronjob/tasks_per_5_min.sh
-##count24hr
-45 23 * * * root /yiabiRoot/cronjob/dump24hr.sh
-##check_service
-0 * * * * root /yiabiRoot/cronjob/check_service.sh

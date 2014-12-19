@@ -1,0 +1,2 @@
+module Example::HelloworldHelper
+end

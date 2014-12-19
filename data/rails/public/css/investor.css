@@ -1,0 +1,112 @@
+#wrapper {
+	//width: 50%;
+	//margin: 0 auto;
+}
+
+@media screen and (min-width: 1200px) {
+	body {
+		font-size: 24px;
+	}
+
+	.button{
+		width: 300px;
+		height: 70px;
+	}
+
+	input {
+		width: 100px;
+		height: 36px;
+		font-size: 24px;
+		text-align: center;
+		/*border: 2px; */
+	}
+
+	#total {
+		width: 150px;
+	}
+
+	.result span {
+		padding-left: 24px;
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 979px) {
+	body {
+		font-size: 64px;
+	}
+
+	.button{
+		width: 810px;
+		height: 189px;
+	}
+
+	input {
+		width: 270px;
+		height: 97px;
+		font-size: 64px;
+		text-align: center;
+		/*border: 2px; */
+	}
+
+	#total {
+		width: 400px;
+	}
+
+	.result span {
+		padding-left: 64px;
+	}	
+}
+
+@media screen and (max-width: 767px) {
+	body {
+		font-size: 64px;
+	}
+
+	.button{
+		width: 810px;
+		height: 189px;
+	}
+
+	input {
+		width: 270px;
+		height: 97px;
+		font-size: 64px;
+		text-align: center;
+		/*border: 2px; */
+	}
+
+	#total {
+		width: 400px;
+	}
+
+	.result span {
+		padding-left: 64px;
+	}
+}
+
+@media screen and (max-device-width: 480px) {
+	body {
+		font-size: 48px;
+	}
+
+	.button{
+		width: 600px;
+		height: 140px;
+	}
+
+	input {
+		width: 200px;
+		height: 72px;
+		font-size: 48px;
+		text-align: center;
+		/*border: 2px; */
+	}
+
+	#total {
+		width: 300px;
+	}
+
+	.result span {
+		padding-left: 48px;
+	}
+}

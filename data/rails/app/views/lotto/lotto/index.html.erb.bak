@@ -1,0 +1,13 @@
+<p>One-Thousand Lottery Machine</p>
+<p>=========== 649 ===========</p>
+<p>OT predict: 
+	<% @draw.each do |num| %>
+		<!-- zero-padding number -->
+		<%= "%02d " % num %>
+	<% end %>
+</p>
+
+<p>
+	<%= button_to 'Generate', :controller=>'lotto', :action => 'index'%>
+</p>
+<p>=========== 539 ===========</p>

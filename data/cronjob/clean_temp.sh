@@ -9,9 +9,4 @@ yiabi_clean_temp() {
 	find ${YIABI_WEBUSER_POSTTEMP_DIR}/ -name '*' -mtime +${expired_days} -exec rm -f {} \;
 }
 
-yiabi_clean_pdf() {
-	find ${HTML_WAR_DIR}/pdfjs  -mmin +180 | xargs rm
-}
-
-yiabi_clean_pdf
 yiabi_clean_temp 3

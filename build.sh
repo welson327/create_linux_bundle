@@ -8,13 +8,11 @@ echo "Old version = $(get_current_version)"
 tmpfolder=$(mktemp -d /tmp/tmp.XXXXXXXX)
 ver="$(promote_version)"
 tmpbin="${tmpfolder}/install.bin"
-bin="output_bin/yiabi_installer-${ver}.bin"
+bin="output_bin/wels_installer-${ver}.bin"
 
 
 PACK_DATA_HOME="/Users/welson/rails/wels"
 TAR="servicedata.tar.gz"
-
-mkdir -p output_bin/ok
 
 #~ cp -rf data ${tmpfolder}
 #~ cp -rf init_server.sh ${tmpfolder}
