@@ -11,7 +11,7 @@ tmpbin="${tmpfolder}/install.bin"
 bin="output_bin/yiabi_installer-${ver}.bin"
 
 
-WAR_HOME="/Users/welson/_share/war"
+PACK_DATA_HOME="/Users/welson/rails/wels"
 TAR="servicedata.tar.gz"
 
 mkdir -p output_bin/ok
@@ -19,17 +19,17 @@ mkdir -p output_bin/ok
 #~ cp -rf data ${tmpfolder}
 #~ cp -rf init_server.sh ${tmpfolder}
 #~ #cp -rf extract.sh $tmpbin
-if [ ! -d "${WAR_HOME}" ]; then
-	echo "${WAR_HOME} is not found!"
+if [ ! -d "${PACK_DATA_HOME}" ]; then
+	echo "${PACK_DATA_HOME} is not found!"
 	exit
 else
-	mkdir -p data/war
-	rm -rf data/war/*.war
-	cp -rf ${WAR_HOME}/*.war data/war
+	mkdir -p data/rails
+	rm -rf data/rails/*
+	cp -rf ${PACK_DATA_HOME}/* data/rails
 fi
 
 #tar --exclude-vcs -czf $TAR data windows
-tar -czf $TAR data windows
+tar -czf $TAR data
 cat init_server.sh $TAR >> $tmpbin
 chmod +x $tmpbin
 cp -f $tmpbin $bin
