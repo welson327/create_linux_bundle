@@ -18,7 +18,7 @@ load_dfs_hosts_config() {
 		
 		hostMap[${host}]=${value}
 		echo "[Parse dfs_hosts.conf] hostMap[$host] => ${hostMap[$host]}, hostMap.length => ${#hostMap[@]}"
-	done < ${YIABI_ETC_DIR}/dfs_hosts.conf
+	done < ${PROJ_ETC_DIR}/dfs_hosts.conf
 }
 
 
@@ -39,27 +39,27 @@ query_check_item() {
 		"2")
 			echo ">> Check Member-Server:"
 			host=$(echo ${hostMap[memberServerHost]} | cut -d':' -f2)
-			cmd="ls -l ${TOMCAT_WAR_DIR}/pus.war; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}/pus.war; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 		"3")
 			echo ">> Check Download-Server:"
 			host=$(echo ${hostMap[downloadServerHost]} | cut -d':' -f2)
-			cmd="ls -l ${TOMCAT_WAR_DIR}/downloadss.war; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}/downloadss.war; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 		"4")
 			echo ">> Check LIB-Server:"
 			host=$(echo ${hostMap[libAccessServerHost]} | cut -d':' -f2)
-			cmd="ls -l ${TOMCAT_WAR_DIR}/Akita.war; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}/Akita.war; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 		"5")
 			echo ">> Check PDF-Server:"
 			host=$(echo ${hostMap[pdfConversionServerHost]} | cut -d':' -f2)
-			cmd="ls -l ${TOMCAT_WAR_DIR}/Akita.war; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}/Akita.war; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 		"6")
 			echo ">> Check Corgi-Server:"
 			host=$(echo ${hostMap[corgiServerHost]} | cut -d':' -f2)
-			cmd="ls -l ${TOMCAT_WAR_DIR}/Corgi.war; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}/Corgi.war; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 		"7")
 			echo ">> Check PchomeBypass-Server:"
@@ -73,7 +73,7 @@ query_check_item() {
 		*)
 			echo ">> Check localhost:"
 			host="//localhost"
-			cmd="ls -l ${TOMCAT_WAR_DIR}; cat ${YIABI_ETC_DIR}/dfs_hosts.conf"
+			cmd="ls -l ${TOMCAT_WAR_DIR}; cat ${PROJ_ETC_DIR}/dfs_hosts.conf"
 			;;
 	esac
 	

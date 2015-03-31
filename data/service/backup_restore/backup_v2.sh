@@ -12,7 +12,7 @@ restored_ebooklib_tarname="ebooklib.tar.gz"
 restored_mapdb_tarname="mapdb.tar.gz"
 restored_webuser_tarname="webuser.tar.gz"
 
-backup_file="${YIABI_BACKUP_DIR}/yiabi_backup-${ts}.tar.gz"
+backup_file="${PROJ_BACKUP_DIR}/PROJ_backup-${ts}.tar.gz"
 
 
 print_title() {
@@ -41,7 +41,7 @@ get_backup_filepath() {
 			tagName=""
 			;;
 	esac
-	echo "${YIABI_BACKUP_DIR}/yiabi_backup${tagName}-${ts}.tar.gz"
+	echo "${PROJ_BACKUP_DIR}/PROJ_backup${tagName}-${ts}.tar.gz"
 }
 
 # ===============================================================
@@ -55,47 +55,47 @@ backup_db() {
 	print_title "Backup database of ${dbname} ..."
 	cd /
 	
-	backup_dir="${YIABI_BACKUP_DIR}/db/${dbname}"
+	backup_dir="${PROJ_BACKUP_DIR}/db/${dbname}"
 
 	rm -rf ${backup_dir}
-	mongodump -h 127.0.0.1 -d ${dbname} -o ${YIABI_BACKUP_DIR}/db
-	tar -zcvpf ${YIABI_BACKUP_DIR}/${restored_db_tarname} -C ${YIABI_BACKUP_DIR}/db ${dbname}
+	mongodump -h 127.0.0.1 -d ${dbname} -o ${PROJ_BACKUP_DIR}/db
+	tar -zcvpf ${PROJ_BACKUP_DIR}/${restored_db_tarname} -C ${PROJ_BACKUP_DIR}/db ${dbname}
 	
 	cd -
 }
 
 backup_ebooklib() {
-	print_title "Backup ${YIABI_EBOOKLIB_DIR} ..."
+	print_title "Backup ${PROJ_EBOOKLIB_DIR} ..."
 	cd /
-	tar -zcvpf ${YIABI_BACKUP_DIR}/${restored_ebooklib_tarname} -C ${YIABI_DATA_TOP_PATH} ebooklib
+	tar -zcvpf ${PROJ_BACKUP_DIR}/${restored_ebooklib_tarname} -C ${PROJ_DATA_TOP_PATH} ebooklib
 	cd -
 }
 
 backup_mapdb() {
-	print_title "Backup ${YIABI_MAPDB_DIR} ..."
+	print_title "Backup ${PROJ_MAPDB_DIR} ..."
 	cd /
-	tar -zcvpf ${YIABI_BACKUP_DIR}/${restored_mapdb_tarname} -C ${YIABI_DATA_TOP_PATH} mapdb
+	tar -zcvpf ${PROJ_BACKUP_DIR}/${restored_mapdb_tarname} -C ${PROJ_DATA_TOP_PATH} mapdb
 	cd -
 }
 
 backup_webuser() {
-	print_title "Backup ${YIABI_WEBUSER_DIR} ..."
+	print_title "Backup ${PROJ_WEBUSER_DIR} ..."
 	cd /
-	tar -zcvpf ${YIABI_BACKUP_DIR}/${restored_webuser_tarname} -C ${YIABI_DATA_TOP_PATH} webuser
+	tar -zcvpf ${PROJ_BACKUP_DIR}/${restored_webuser_tarname} -C ${PROJ_DATA_TOP_PATH} webuser
 	cd -
 }
 
 pack_restored_data() {
 	print_title "Generate Backup ${backup_file} ..."
-	tar -zcvpf "${backup_file}" -C ${YIABI_BACKUP_DIR} \
+	tar -zcvpf "${backup_file}" -C ${PROJ_BACKUP_DIR} \
 				${restored_db_tarname} \
 				${restored_ebooklib_tarname} \
 				${restored_mapdb_tarname} \
 				${restored_webuser_tarname} 2>/dev/null
-	rm -rf ${YIABI_BACKUP_DIR}/${restored_db_tarname}
-	rm -rf ${YIABI_BACKUP_DIR}/${restored_ebooklib_tarname}
-	rm -rf ${YIABI_BACKUP_DIR}/${restored_mapdb_tarname}
-	rm -rf ${YIABI_BACKUP_DIR}/${restored_webuser_tarname}
+	rm -rf ${PROJ_BACKUP_DIR}/${restored_db_tarname}
+	rm -rf ${PROJ_BACKUP_DIR}/${restored_ebooklib_tarname}
+	rm -rf ${PROJ_BACKUP_DIR}/${restored_mapdb_tarname}
+	rm -rf ${PROJ_BACKUP_DIR}/${restored_webuser_tarname}
 }
 
 

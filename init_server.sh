@@ -45,15 +45,6 @@ print_green() {
 	printf "%*s%s\n" "$(tput cols)" "[$(tput setaf 2)${rslt}$(tput sgr0)]"
 }
 
-is_windows() {
-	# if os can run this script, almost is using cygwin
-	if [[ "$OSTYPE" == *win* ]]; then 
-		echo "true"
-	else
-		echo "false"
-	fi
-}
-
 still_install?() {
 	read -e -p "Still install? (y/n)" yesno
 	if [ "$yesno" != "y" ]; then
@@ -71,9 +62,9 @@ query_install_version() {
 	
 	case ${install_version} in
 		"h" | "H")
-			echo "* Official: Install project in [${YIABI_DATA_TOP_PATH}]."
-			echo "* Engineer: Install project in [${YIABI_DATA_TOP_PATH}]."
-			echo "* Only folder tree: mkdir -p ${YIABI_DATA_TOP_PATH} and its child folders."
+			echo "* Official: Install project in [${PROJ_DATA_TOP_PATH}]."
+			echo "* Engineer: Install project in [${PROJ_DATA_TOP_PATH}]."
+			echo "* Only folder tree: mkdir -p ${PROJ_DATA_TOP_PATH} and its child folders."
 			read -e -p "Back to install menu? (y/n)" yesno
 			if [ "$yesno" = "y" ]; then
 				query_install_version
@@ -171,59 +162,34 @@ check_dependency() {
 }
 
 create_init_folder() {
-	if [ ! -d $YIABI_DATA_TOP_PATH ]; then
-		mkdir -p $YIABI_DATA_TOP_PATH
-	fi
+	mkdir -p $PROJ_DATA_TOP_PATH
 	
-	ln -nsf $YIABI_DATA_TOP_PATH /yiabiRoot
-	chown -R webuser:webuser /yiabiRoot
-	change_permission $YIABI_DATA_TOP_PATH
+	ln -nsf $PROJ_DATA_TOP_PATH /welsRoot
+	chown -R webuser:webuser /welsRoot
+	change_permission $PROJ_DATA_TOP_PATH
 	
 	
-	mkdir -p $YIABI_BACKUP_DIR
-	mkdir -p $YIABI_CRONJOB_DIR
-	mkdir -p $YIABI_ETC_DIR
-	#mkdir -p $YIABI_EBOOKLIB_DIR
+	mkdir -p $PROJ_BACKUP_DIR
+	mkdir -p $PROJ_CRONJOB_DIR
+	mkdir -p $PROJ_ETC_DIR
 
-	# mapdb
-	# mkdir -p $YIABI_BROWSING_COUNTER_DIR
-	# mkdir -p $YIABI_COUNT24HR_DIR
-	# mkdir -p $YIABI_CUTTING_COUNTER_DIR
+	mkdir -p $PROJ_SERVICE_DIR
+	mkdir -p $PROJ_TEMP_DIR
 
-	mkdir -p $YIABI_SERVICE_DIR
-	mkdir -p $YIABI_TEMP_DIR
+	mkdir -p $PROJ_WEBSERVICE_DIR
 
-	mkdir -p $YIABI_WEBSERVICE_DIR
-
-	# webuser
-	mkdir -p $YIABI_WEBUSER_DIR
-	# mkdir -p $YIABI_WEBUSER_DIR/cache
-	# mkdir -p $YIABI_WEBUSER_DIR/doclib/html_converted
-	# mkdir -p $YIABI_WEBUSER_DIR/doclib/log
-	# mkdir -p $YIABI_WEBUSER_DIR/doclib/upload_doc
-	# mkdir -p $YIABI_WEBUSER_DIR/doclib/zip_temp
-	# mkdir -p $YIABI_WEBUSER_POSTTEMP_DIR
-	# mkdir -p $YIABI_WEBUSER_ZIPSEND_DIR
+	# member
+	mkdir -p $PROJ_MEMBER_DIR
 	for ch in {a..z}; do
-		mkdir -p $YIABI_WEBUSER_DIR/$ch
+		mkdir -p $PROJ_MEMBER_DIR/$ch
 	done
 	for dd in {0..9}; do
-		mkdir -p $YIABI_WEBUSER_DIR/$dd
+		mkdir -p $PROJ_MEMBER_DIR/$dd
 	done
 	
-	if [ ! -d $YIABI_WEBUSER_SOFTLINK_DIR ]; then
-		mkdir -p $YIABI_WEBUSER_SOFTLINK_DIR
-	fi
-}
-
-has_cronjob() {
-	task_tag="$1"
-	
-	if [ $(grep "$task_tag" "$CRONTAB_FILE" -nHr | wc -l) -gt 0 ]; then
-		echo "true"
-	else
-		echo "false"
-	fi
+	# if [ ! -d $PROJ_WEBUSER_SOFTLINK_DIR ]; then
+	# 	mkdir -p $PROJ_WEBUSER_SOFTLINK_DIR
+	# fi
 }
 
 set_crontab() {
@@ -238,7 +204,7 @@ set_crontab() {
 }
 
 make_version_file() {
-	file="${YIABI_VERSION_FILE}"
+	file="${PROJ_VERSION_FILE}"
 	
 	echo "" >> $file
 
@@ -250,13 +216,13 @@ make_version_file() {
 check_service() {
 	case ${install_version} in
 		*)
-			proj="pus"
+			proj="wels"
 			;;
 	esac
 	
-	if [ "$(curl localhost:80/${proj}/services/helloworld)" = "Hello_World" ]; then 
+	if [ "$(curl localhost:80/${proj}/s/helloworld)" = "Hello_World" ]; then 
 		echo "true"
-	elif [ "$(curl localhost:3000/${proj}/services/helloworld)" = "Hello_World" ]; then 
+	elif [ "$(curl localhost:3000/${proj}/s/helloworld)" = "Hello_World" ]; then 
 		echo "true"
 	else
 		echo "false"
@@ -293,7 +259,7 @@ wait_for_service_ready() {
 refresh_website() {
 	case ${install_version} in
 		"1" | "2")
-			${YIABI_ETC_DIR}/refresh_website.sh
+			${PROJ_ETC_DIR}/refresh_website.sh
 			;;
 		*)
 			;;
@@ -301,22 +267,22 @@ refresh_website() {
 }
 
 check_dfs_hosts_conf() {
-	if [ -f "${YIABI_ETC_DIR}/dfs_hosts.conf" ]; then
-		read -e -p "${YIABI_ETC_DIR}/dfs_hosts.conf is exist! Keep original file? (y/n)" isKeep
+	if [ -f "${PROJ_ETC_DIR}/dfs_hosts.conf" ]; then
+		read -e -p "${PROJ_ETC_DIR}/dfs_hosts.conf is exist! Keep original file? (y/n)" isKeep
 		if [ "$isKeep" = "y" ]; then
 			echo "Keep original dfs_hosts.conf."
-			cp -rf ${YIABI_ETC_DIR}/dfs_hosts.conf ${DATA_DIR}/etc
+			cp -rf ${PROJ_ETC_DIR}/dfs_hosts.conf ${DATA_DIR}/etc
 		fi
 	fi
 }
 
 deploy() {
 	# clear /yiabi/ws/rails
-	rm -rf ${YIABI_DATA_TOP_PATH}/ws/rails
+	rm -rf ${PROJ_DATA_TOP_PATH}/ws/rails
 	
 	# check_dfs_hosts_conf
 	
-	cp -rf ${DATA_DIR}/* ${YIABI_DATA_TOP_PATH}/
+	cp -rf ${DATA_DIR}/* ${PROJ_DATA_TOP_PATH}/
 	
 	if [ -d "${DATA_DIR}/rails" ]; then
 		case ${install_version} in
@@ -338,7 +304,7 @@ deploy() {
 	
 	make_version_file
 
-	change_permission $YIABI_DATA_TOP_PATH
+	change_permission $PROJ_DATA_TOP_PATH
 }
 
 clear_tmp() {

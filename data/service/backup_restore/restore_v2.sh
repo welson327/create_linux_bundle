@@ -37,23 +37,23 @@ restore_db() {
 
 restore_ebooklib() {
 	cd /
-	print_title "tar -zxf ${TMPDIR}/ebooklib.tar.gz -C ${YIABI_DATA_TOP_PATH}"
-	tar -zxf ${TMPDIR}/ebooklib.tar.gz -C ${YIABI_DATA_TOP_PATH}
+	print_title "tar -zxf ${TMPDIR}/ebooklib.tar.gz -C ${PROJ_DATA_TOP_PATH}"
+	tar -zxf ${TMPDIR}/ebooklib.tar.gz -C ${PROJ_DATA_TOP_PATH}
 	cd -
 }
 
 restore_mapdb() {
 	cd /
-	print_title "tar -zxf ${TMPDIR}/mapdb.tar.gz -C ${YIABI_DATA_TOP_PATH}"
-	tar -zxf ${TMPDIR}/mapdb.tar.gz -C ${YIABI_DATA_TOP_PATH}
+	print_title "tar -zxf ${TMPDIR}/mapdb.tar.gz -C ${PROJ_DATA_TOP_PATH}"
+	tar -zxf ${TMPDIR}/mapdb.tar.gz -C ${PROJ_DATA_TOP_PATH}
 	cd -
 }
 
 restore_webuser() {
 	cd /
   
-	print_title "tar -zxf ${TMPDIR}/webuser.tar.gz -C ${YIABI_DATA_TOP_PATH}"
-	tar -zxf ${TMPDIR}/webuser.tar.gz -C ${YIABI_DATA_TOP_PATH}
+	print_title "tar -zxf ${TMPDIR}/webuser.tar.gz -C ${PROJ_DATA_TOP_PATH}"
+	tar -zxf ${TMPDIR}/webuser.tar.gz -C ${PROJ_DATA_TOP_PATH}
   
 	#print_title "ln -sf /yiabi /yiabiweb"
 	#ln -sf /yiabi /yiabiweb # ???????????
@@ -71,7 +71,7 @@ remove_prepared_data() {
 }
 
 append_log() {
-	file=${YIABI_VERSION_FILE}
+	file=${PROJ_VERSION_FILE}
 	
 	echo "" >> $file
 	echo "##[ RESTORE ]##" >> $file
@@ -80,9 +80,9 @@ append_log() {
 }
 
 refresh_website() {
-	if [ -f "${YIABI_ETC_DIR}/refresh_website.sh" ]; then
-		print_title "${YIABI_ETC_DIR}/refresh_website.sh"
-		${YIABI_ETC_DIR}/refresh_website.sh
+	if [ -f "${PROJ_ETC_DIR}/refresh_website.sh" ]; then
+		print_title "${PROJ_ETC_DIR}/refresh_website.sh"
+		${PROJ_ETC_DIR}/refresh_website.sh
 	fi
 }
 
