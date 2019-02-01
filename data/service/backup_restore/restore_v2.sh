@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/yiabi/path.sh"
+source "/myapp/path.sh"
 
 export TMPDIR=`mktemp -d /tmp/restored.XXXXXX`
 dbname="puppy"

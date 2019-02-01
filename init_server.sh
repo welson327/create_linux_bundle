@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "========================="
-echo "    Service Installer"
+echo "   Service Installer"
 echo "========================="
 
 rm -rf /tmp/selfextract.*
@@ -21,7 +21,6 @@ echo "DATA_DIR=${DATA_DIR}"
 source "${DATA_DIR}/path.sh"
 
 install_version=""
-restful_site="localhost:80/pus"
 
 # ============================================================
 # Purpose: 		get ver. number bin BIN name
@@ -55,7 +54,7 @@ still_install?() {
 query_install_version() {
 	echo "Installation supports following items for you:"
 	echo "  (h) --Help--"
-	echo "  (1) Official version"
+	echo "  (1) Production version"
 	echo "  (2) Engineer version"
 	echo "  (t) Only folder tree"
 	read -e -p "Which item to install?(1/2/t): " install_version
@@ -73,7 +72,7 @@ query_install_version() {
 			fi
 			;;
 		"1")
-			echo "------> Prepare to install [Official] version."
+			echo "------> Prepare to install [Production] version."
 			;;
 		"t")
 			echo "------> Prepare to mkdir folder tree."
@@ -93,22 +92,6 @@ change_permission() {
 	dir="$1"
 	chmod -R 777 $dir
 	chown -R webuser:webuser $dir
-}
-
-check_os() {
-	os="$(uname)"
-	echo "Your OS is [${os}]"
-	
-	case "$os" in
-		Linux)
-			;;
-		Darwin)
-			echo "Please Make sure ${TOMCAT_WAR_DIR} and ${HTML_WAR_DIR} are exist!"
-			still_install?
-			;;
-		*)
-			;;
-	esac
 }
 
 check_env() {
@@ -164,32 +147,18 @@ check_dependency() {
 create_init_folder() {
 	mkdir -p $PROJ_DATA_TOP_PATH
 	
-	ln -nsf $PROJ_DATA_TOP_PATH /welsRoot
-	chown -R webuser:webuser /welsRoot
-	change_permission $PROJ_DATA_TOP_PATH
-	
-	
 	mkdir -p $PROJ_BACKUP_DIR
 	mkdir -p $PROJ_CRONJOB_DIR
 	mkdir -p $PROJ_ETC_DIR
-
 	mkdir -p $PROJ_SERVICE_DIR
 	mkdir -p $PROJ_TEMP_DIR
-
-	mkdir -p $PROJ_WEBSERVICE_DIR
-
-	# member
-	mkdir -p $PROJ_MEMBER_DIR
-	for ch in {a..z}; do
-		mkdir -p $PROJ_MEMBER_DIR/$ch
-	done
-	for dd in {0..9}; do
-		mkdir -p $PROJ_MEMBER_DIR/$dd
-	done
+	mkdir -p $PROJ_WS_DIR
 	
 	# if [ ! -d $PROJ_WEBUSER_SOFTLINK_DIR ]; then
 	# 	mkdir -p $PROJ_WEBUSER_SOFTLINK_DIR
 	# fi
+
+	change_permission $PROJ_DATA_TOP_PATH
 }
 
 set_crontab() {
@@ -216,7 +185,7 @@ make_version_file() {
 check_service() {
 	case ${install_version} in
 		*)
-			proj="wels"
+			proj="${PROJ_NAME}"
 			;;
 	esac
 	
@@ -266,21 +235,21 @@ refresh_website() {
 	esac
 }
 
-check_dfs_hosts_conf() {
-	if [ -f "${PROJ_ETC_DIR}/dfs_hosts.conf" ]; then
-		read -e -p "${PROJ_ETC_DIR}/dfs_hosts.conf is exist! Keep original file? (y/n)" isKeep
+check_hosts_conf() {
+	if [ -f "${PROJ_ETC_DIR}/hosts.conf" ]; then
+		read -e -p "${PROJ_ETC_DIR}/hosts.conf is exist! Keep original file? (y/n)" isKeep
 		if [ "$isKeep" = "y" ]; then
-			echo "Keep original dfs_hosts.conf."
+			echo "Keep original hosts.conf."
 			cp -rf ${PROJ_ETC_DIR}/dfs_hosts.conf ${DATA_DIR}/etc
 		fi
 	fi
 }
 
 deploy() {
-	# clear /yiabi/ws/rails
+	# clear /myapp/ws/rails
 	rm -rf ${PROJ_DATA_TOP_PATH}/ws/rails
 	
-	# check_dfs_hosts_conf
+	# check_hosts_conf
 	
 	cp -rf ${DATA_DIR}/* ${PROJ_DATA_TOP_PATH}/
 	
@@ -295,15 +264,10 @@ deploy() {
 		esac
 	fi
 
-	set_crontab
-
+	# set_crontab
 	wait_for_service_ready
-	
-	#deploy_chromestore_certification
 	refresh_website
-	
 	make_version_file
-
 	change_permission $PROJ_DATA_TOP_PATH
 }
 

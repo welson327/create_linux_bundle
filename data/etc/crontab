@@ -15,6 +15,6 @@ HOME=/
 # *  *  *  *  * user-name command to be executed
 
 ##clean_temp
-0 3 * * * root /yiabiRoot/cronjob/clean_temp.sh
+0 3 * * * root /myapp/cronjob/clean_temp.sh
 ##tasks_per_5_min
-*/5 * * * * root /yiabiRoot/cronjob/tasks_per_5_min.sh
+*/5 * * * * root /myapp/cronjob/tasks_per_5_min.sh

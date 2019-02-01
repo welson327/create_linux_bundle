@@ -1,2 +1,0 @@
-module Lotto::LottoHelper
-end

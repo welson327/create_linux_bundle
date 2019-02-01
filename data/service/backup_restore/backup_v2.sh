@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/yiabi/path.sh"
+source "/myapp/path.sh"
 
 backup_item="$1"
 dbname="puppy"

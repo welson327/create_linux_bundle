@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/wels/path.sh"
+source "/myapp/path.sh"
 
 proj_clean_temp() {
 	expired_days="$1"
